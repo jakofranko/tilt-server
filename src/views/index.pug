@@ -1,0 +1,12 @@
+html
+    head
+        title= title
+        script(src='https://d3js.org/d3.v7.min.js')
+        script(src='tilt-data-chart.js')
+    body
+        p Hello World!
+        svg
+    
+    script.
+        const tiltData = !{JSON.stringify(data)};
+        getSvg(tiltData);
