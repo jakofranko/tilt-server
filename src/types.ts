@@ -8,12 +8,10 @@ export type Beer = {
     "timepoint": number
 }
 export type TiltEvent = {
-    "parameter": {
-        "Beer": string,
-        "Temp": number,
-        "SG": number,
-        "Color": string,
-        "Comment": string,
-        "Timepoint": number
-    }
+    "Beer": string,
+    "Temp": number,
+    "SG": number,
+    "Color": string,
+    "Comment": string,
+    "Timepoint": number
 }

@@ -9,7 +9,7 @@ export function sanitizeTiltEvent(tiltEvent: TiltEvent): Beer {
         Color,
         Comment,
         Timepoint
-    } = tiltEvent.parameter;
+    } = tiltEvent;
     return {
         beer: beerName,
         slug: slugify(beerName),
