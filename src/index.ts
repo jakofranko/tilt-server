@@ -25,7 +25,7 @@ db.get(`SELECT name FROM sqlite_master WHERE type='table' AND name='{${tableName
 app.set('views', path.join(__dirname + '/views'));
 app.set('view engine', 'pug');
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(bodyParser.json());
+app.use(bodyParser.urlencoded());
 app.use('/', indexController);
 app.use('/beers', beersController);
 app.use('/tilt-data', tiltDataController);
