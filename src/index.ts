@@ -3,6 +3,7 @@ import bodyParser from 'body-parser';
 import sqlite from 'sqlite3';
 import path from 'path';
 import indexController from './controllers/index';
+import beersController from './controllers/beers';
 import tiltDataController from './controllers/tilt-data';
 import { tiltDataTableDefinition } from './db';
 
@@ -26,9 +27,10 @@ app.set('view engine', 'pug');
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.json());
 app.use('/', indexController);
+app.use('/beers', beersController);
 app.use('/tilt-data', tiltDataController);
 
 app.listen(port, () => {
     // tslint:disable-next-line:no-console
-    console.log(`Example app listening at http://localhost:${port}`);
+    console.log(`Tilt Server listening at http://localhost:${port}`);
 });

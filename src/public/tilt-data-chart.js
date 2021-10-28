@@ -1,5 +1,5 @@
 const height = 600;
-const width = 1000;
+const width = 800;
 const margin = ({
     top: 20,
     right: 30,
@@ -8,13 +8,13 @@ const margin = ({
 });
 
 function getSvg(tiltData) {
-    const max = d3.max(tiltData, d => Math.abs(d.value));
+    const max = d3.max(tiltData, d => Math.abs(d.temp));
     const x = d3.scaleTime()
-        .domain(d3.extent(tiltData, d => new Date(d.date)))
+        .domain(d3.extent(tiltData, d => new Date(d.timepoint)))
         .range([margin.left, width - margin.right]);
 
     const y = d3.scaleLinear()
-        .domain(d3.extent(tiltData, d => d.value)).nice()
+        .domain(d3.extent(tiltData, d => d.temp)).nice()
         .range([height - margin.bottom, margin.top]);
 
     const z = d3.scaleSequential(d3.interpolateRdBu).domain([max, -max]);
@@ -32,15 +32,8 @@ function getSvg(tiltData) {
             .filter(d => d === 0)
             .clone()
             .attr("x2", width - margin.right - margin.left)
-            .attr("stroke", "#ccc"))
-        .call(g => g.append("text")
-            .attr("fill", "#000")
-            .attr("x", 5)
-            .attr("y", margin.top)
-            .attr("dy", "0.32em")
-            .attr("text-anchor", "start")
-            .attr("font-weight", "bold")
-            .text("Anomaly (°C)"));
+            .attr("stroke", "#ccc"));
+
     const svg = d3.select("svg")
         .attr("viewBox", [0, 0, width, height]);
 
@@ -56,8 +49,8 @@ function getSvg(tiltData) {
         .selectAll("circle")
         .data(tiltData)
         .join("circle")
-        .attr("cx", d => x(new Date(d.date)))
-        .attr("cy", d => y(d.value))
-        .attr("fill", d => z(d.value))
+        .attr("cx", d => x(new Date(d.timepoint)))
+        .attr("cy", d => y(d.temp))
+        .attr("fill", d => z(d.temp))
         .attr("r", 2.5);
 }

@@ -7,12 +7,25 @@ const tableName = 'tilt_data';
 const db = new sqlite.Database(tableName);
 const router = express.Router();
 
-router.get('/', (req, res) => {
+router.get('/', (_, res) => {
     db.all(`SELECT * FROM ${tableName}`, (error, rows) => {
         if (error) throw error;
         res.send(rows);
     });
 });
+
+router.get('/:beerSlug', (req, res) => {
+    const { beerSlug } = req.params;
+
+    db.all(`SELECT * FROM ${tableName} WHERE beer_slug = ?;`, beerSlug, (err, rows) => {
+        let beerName;
+        if (err) throw err;
+        if (!err && rows.length)
+            beerName = rows[0].beer_name;
+
+        res.render('index', { title: `${beerName} Tilt Data`, data: rows });
+    });
+})
 
 router.post('/', (req, res) => {
     // tslint:disable-next-line:no-console

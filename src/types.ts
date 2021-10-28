@@ -1,5 +1,6 @@
 export type Beer = {
     "beer": string,
+    "slug": string,
     "temp": number,
     "sg": number,
     "color": string,

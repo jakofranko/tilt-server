@@ -1,3 +1,4 @@
+import slugify from 'slugify';
 import type { Beer, TiltEvent } from './types';
 
 export function sanitizeTiltEvent(tiltEvent: TiltEvent): Beer {
@@ -11,6 +12,7 @@ export function sanitizeTiltEvent(tiltEvent: TiltEvent): Beer {
     } = tiltEvent.parameter;
     return {
         beer: beerName,
+        slug: slugify(beerName),
         temp: Temp,
         sg: SG,
         color: Color,

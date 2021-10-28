@@ -1,0 +1,8 @@
+html
+    head
+        title Beers
+    body
+        ul
+            each beer in beers
+                li
+                    a(href=`tilt-data/${beer.beer_slug}`)= beer.beer_name

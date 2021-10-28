@@ -8,6 +8,7 @@ const db = new sqlite.Database(tableName);
 
 export const tiltDataTableDefinition: string = `CREATE TABLE ${tableName} (
     beer_name TEXT,
+    beer_slug TEXT,
     temp REAL,
     sg REAL,
     color TEXT,
@@ -18,6 +19,7 @@ export const tiltDataTableDefinition: string = `CREATE TABLE ${tableName} (
 export function insertTiltData(beerData: Beer) {
     const {
         beer,
+        slug,
         temp,
         sg,
         color,
@@ -25,9 +27,9 @@ export function insertTiltData(beerData: Beer) {
         timepoint
     } = beerData;
 
-    const statement = `INSERT INTO ${tableName} (beer_name, temp, sg, color, comment, timepoint) VALUES (?, ?, ?, ?, ?, ?)`;
+    const statement = `INSERT INTO ${tableName} (beer_name, beer_slug, temp, sg, color, comment, timepoint) VALUES (?, ?, ?, ?, ?, ?, ?)`;
 
-    db.run(statement, [beer, temp, sg, color, comment, timepoint], function(err) {
+    db.run(statement, [beer, slug, temp, sg, color, comment, timepoint], function(err) {
         if (err) {
             throw err;
         }
