@@ -1,4 +1,5 @@
 tilt_data
+tilt_server_db
 
 node_modules/
 dist/

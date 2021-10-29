@@ -2,13 +2,13 @@ import express from 'express';
 import sqlite from 'sqlite3';
 import { insertTiltData } from '../db';
 import { sanitizeTiltEvent } from '../utils';
+import { dbName, tiltDataTableName } from '../constants';
 
-const tableName = 'tilt_data';
-const db = new sqlite.Database(tableName);
+const db = new sqlite.Database(dbName);
 const router = express.Router();
 
 router.get('/', (_, res) => {
-    db.all(`SELECT * FROM ${tableName}`, (error, rows) => {
+    db.all(`SELECT * FROM ${tiltDataTableName}`, (error, rows) => {
         if (error) throw error;
         res.send(rows);
     });
@@ -17,7 +17,7 @@ router.get('/', (_, res) => {
 router.get('/:beerSlug', (req, res) => {
     const { beerSlug } = req.params;
 
-    db.all(`SELECT * FROM ${tableName} WHERE beer_slug = ?;`, beerSlug, (err, rows) => {
+    db.all(`SELECT * FROM ${tiltDataTableName} WHERE beer_slug = ?;`, beerSlug, (err, rows) => {
         let beerName;
         if (err) throw err;
         if (!err && rows.length)
