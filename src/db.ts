@@ -22,13 +22,13 @@ export function insertTiltData(beerData: Beer) {
         temp,
         sg,
         color,
-        comment,
-        timepoint
+        comment
+        // timepoint // Use a JS timestamp instead, since I don't know what this is supposed to represent
     } = beerData;
 
     const statement = `INSERT INTO ${tiltDataTableName} (beer_name, beer_slug, temp, sg, color, comment, timepoint) VALUES (?, ?, ?, ?, ?, ?, ?)`;
 
-    db.run(statement, [beer, slug, temp, sg, color, comment, timepoint], function(err) {
+    db.run(statement, [beer, slug, temp, sg, color, comment, new Date()], function(err) {
         if (err) {
             throw err;
         }

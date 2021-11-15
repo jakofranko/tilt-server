@@ -8,16 +8,16 @@ const margin = ({
 });
 
 function getSvg(tiltData) {
-    const max = d3.max(tiltData, d => Math.abs(d.temp));
     const x = d3.scaleTime()
         .domain(d3.extent(tiltData, d => new Date(d.timepoint)))
         .range([margin.left, width - margin.right]);
 
     const y = d3.scaleLinear()
-        .domain(d3.extent(tiltData, d => d.temp)).nice()
+        .domain(d3.extent(tiltData, d => d.sg)).nice()
         .range([height - margin.bottom, margin.top]);
 
-    const z = d3.scaleSequential(d3.interpolateRdBu).domain([max, -max]);
+    const max = d3.max(tiltData, d => Math.abs(d.temp));
+    const tempColor = d3.scaleSequential(d3.interpolateRdBu).domain([max, -max]);
 
     const xAxis = g => g
         .attr("transform", `translate(0,${height - margin.bottom})`)
@@ -40,8 +40,23 @@ function getSvg(tiltData) {
     svg.append("g")
         .call(xAxis);
 
+    // X-axis label
+    svg.append("text")
+        .attr("transform", `translate(${width / 2},${height + margin.top + 20})`)
+        .style("text-anchor", "middle")
+        .text("Date");
+
     svg.append("g")
         .call(yAxis);
+
+    // Y-axis label
+    svg.append("text")
+        .attr("transform", "rotate(-90)")
+        .attr("y", 0 - margin.left)
+        .attr("x", 0 - (height / 2))
+        .attr("dy", "1em")
+        .style("text-anchor", "middle")
+        .text("SG (Gravity)");
 
     svg.append("g")
         .attr("stroke", "#000")
@@ -50,7 +65,7 @@ function getSvg(tiltData) {
         .data(tiltData)
         .join("circle")
         .attr("cx", d => x(new Date(d.timepoint)))
-        .attr("cy", d => y(d.temp))
-        .attr("fill", d => z(d.temp))
+        .attr("cy", d => y(d.sg))
+        .attr("fill", d => tempColor(d.temp))
         .attr("r", 2.5);
 }

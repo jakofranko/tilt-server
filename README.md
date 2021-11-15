@@ -41,5 +41,5 @@ Right now, the graph just shows temperature across time, but we could visualize 
 - decide what data to show on the graph, and how best to do it
 - probably need to coerce the timepoint datum into the right format (i.e., it's probably not a timestamp)
 - make it pretty + add some basic nav
-- clean up DB queries to all be in the db file, or maybe even refactor into a models architecture
+- clean up DB queries to all be in the db file, or maybe even refactor into a models architecture (a la https://stackabuse.com/a-sqlite-tutorial-with-node-js/ perhaps)
 - elementary CRUD functionality to allow for deleting anomalous data entries
