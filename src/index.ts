@@ -5,6 +5,7 @@ import path from 'path';
 import indexController from './controllers/index';
 import beersController from './controllers/beers';
 import tiltDataController from './controllers/tilt-data';
+import uploadController from './controllers/upload';
 import { tiltDataTableDefinition } from './db';
 import { dbName, tiltDataTableName } from './constants';
 
@@ -16,11 +17,13 @@ const urlencodedParser = bodyParser.urlencoded();
 
 app.set('views', path.join(__dirname + '/views'));
 app.set('view engine', 'pug');
+
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(urlencodedParser);
+
 app.use('/', indexController);
 app.use('/beers', beersController);
-app.use('/tilt-data', tiltDataController);
+app.use('/tilt-data', urlencodedParser, tiltDataController);
+app.use('/upload', uploadController);
 
 const db = new sqlite.Database(dbName, (err: Error) => {
     if (err) throw err;
