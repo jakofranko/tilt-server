@@ -1,42 +1,40 @@
 import express from 'express';
 import formidable from 'formidable';
-import { Duplex } from 'stream';
 import csv from 'csv-parser';
-import sqlite from 'sqlite3';
-import { dbName, tiltDataTableName } from '../constants';
+import { Beer, TiltEvent, TiltDataRow } from '../types';
+import { insertMultipleTiltData } from '../db';
 
 const router = express.Router();
-const db = new sqlite.Database(dbName);
 
 router.get('/', (_, res) => {
-    res.render('upload');
+    res.render('upload', { title: 'Upload Tilt Data' });
 });
 
 router.post('/', (req, res, next) => {
     console.log('hit the upload controller');
-    const csvData: string[] = [];
+    const csvData: TiltDataRow[] = [];
     const csvParserStream = csv()
         .on('data', (data) => {
             csvData.push(data);
         })
         .on('finish', () => {
-            console.log('closed');
+            console.log('closed, inserting data');
             console.log(csvData);
-            // parse the contents of csvContents, and then store it in the DB
+            insertMultipleTiltData(csvData, () => {
+                res.status(201).redirect('/beers');
+            });
         });
 
     const form = formidable({
         fileWriteStreamHandler: (/* file */) => csvParserStream
     });
+
     console.log('parsing form');
     form.parse(req, (err, fields, files) => {
         if (err) {
             next(err);
             return;
         }
-
-        const beerName = fields['beer-name'];
-        res.json({ fields, files });
     });
 })
 

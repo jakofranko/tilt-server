@@ -1,0 +1,14 @@
+extends templates/main-layout.pug
+
+block scripts
+    script(src='https://d3js.org/d3.v7.min.js')
+    script(src='/tilt-data-chart.js')
+
+block content
+
+    h1.lhs.mb2.ac= title
+    svg.vh9.db.cn
+    
+    script.
+        const tiltData = !{JSON.stringify(data)};
+        getSvg(tiltData);

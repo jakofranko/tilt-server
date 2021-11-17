@@ -1,8 +1,8 @@
-html
-    head
-        title Beers
-    body
-        ul
-            each beer in beers
-                li
-                    a(href=`tilt-data/${beer.beer_slug}`)= beer.beer_name
+extends templates/main-layout.pug
+
+block content
+    h1.lhs.mb2 All Beers
+    ul
+        each beer in beers
+            li
+                a(href=`tilt-data/${beer.beer_slug}`)= beer.beer_name

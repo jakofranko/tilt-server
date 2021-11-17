@@ -7,7 +7,7 @@
     "prebuild": "npm run lint && npm run clean",
     "lint": "tslint -c tslint.json -p tsconfig.json --fix",
     "clean": "rimraf dist/",
-    "build": "tsc && copyfiles -u 2 src/views/*.pug dist/views && copyfiles -u 2 src/public/* dist/public",
+    "build": "tsc && copyfiles -u 2 src/views/**/*.pug dist/views && copyfiles -u 2 src/public/* dist/public",
     "prestart": "npm run build",
     "start": "node .",
     "watch:typescript": "tsc -w",

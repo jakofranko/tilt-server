@@ -23,7 +23,7 @@ router.get('/:beerSlug', (req, res) => {
         if (!err && rows.length)
             beerName = rows[0].beer_name;
 
-        res.render('index', { title: `${beerName} Tilt Data`, data: rows });
+        res.render('tilt-data', { title: `${beerName} Tilt Data`, data: rows });
     });
 })
 

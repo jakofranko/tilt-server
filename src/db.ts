@@ -1,6 +1,7 @@
 import sqlite from 'sqlite3';
-import type { Beer } from './types';
+import type { Beer, TiltDataRow } from './types';
 import { dbName, tiltDataTableName } from './constants';
+import { sanitizeCsvRow } from './utils';
 
 sqlite.verbose();
 const db = new sqlite.Database(dbName);
@@ -12,8 +13,11 @@ export const tiltDataTableDefinition: string = `CREATE TABLE IF NOT EXISTS ${til
     sg REAL,
     color TEXT,
     comment TEXT,
-    timepoint REAL
+    timepoint REAL,
+    timestamp TEXT
 )`;
+
+export const insertStatement = `INSERT INTO ${tiltDataTableName} (beer_name, beer_slug, temp, sg, color, comment, timepoint, timestamp) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`;
 
 export function insertTiltData(beerData: Beer) {
     const {
@@ -22,17 +26,42 @@ export function insertTiltData(beerData: Beer) {
         temp,
         sg,
         color,
-        comment
-        // timepoint // Use a JS timestamp instead, since I don't know what this is supposed to represent
+        comment,
+        timepoint
     } = beerData;
 
-    const statement = `INSERT INTO ${tiltDataTableName} (beer_name, beer_slug, temp, sg, color, comment, timepoint) VALUES (?, ?, ?, ?, ?, ?, ?)`;
-
-    db.run(statement, [beer, slug, temp, sg, color, comment, new Date()], function(err) {
+    db.run(insertStatement, [beer, slug, temp, sg, color, comment, timepoint, new Date()], function(err) {
         if (err) {
             throw err;
         }
 
         console.log('Insert successful', this.lastID);
+    });
+}
+
+export function insertMultipleTiltData(beerData: TiltDataRow[], finalizeCallback?: any) {
+    db.serialize(() => {
+        const insert = db.prepare(insertStatement);
+
+        beerData.forEach(dataEntry => {
+            const {
+                beer,
+                slug,
+                temp,
+                sg,
+                color,
+                comment,
+                timepoint,
+                timestamp
+            } = sanitizeCsvRow(dataEntry);
+            console.log(timepoint);
+            console.log(new Date(timepoint));
+
+            insert.run([beer, slug, temp, sg, color, comment, timepoint, timestamp], (err) => {
+                if (err) throw err;
+            });
+        });
+
+        insert.finalize(finalizeCallback);
     });
 }

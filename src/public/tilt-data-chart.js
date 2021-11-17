@@ -8,8 +8,9 @@ const margin = ({
 });
 
 function getSvg(tiltData) {
+    console.log(tiltData);
     const x = d3.scaleTime()
-        .domain(d3.extent(tiltData, d => new Date(d.timepoint)))
+        .domain(d3.extent(tiltData, d => new Date(d.timestamp)))
         .range([margin.left, width - margin.right]);
 
     const y = d3.scaleLinear()
@@ -17,7 +18,10 @@ function getSvg(tiltData) {
         .range([height - margin.bottom, margin.top]);
 
     const max = d3.max(tiltData, d => Math.abs(d.temp));
-    const tempColor = d3.scaleSequential(d3.interpolateRdBu).domain([max, -max]);
+    const min = d3.min(tiltData, d => Math.abs(d.temp));
+    console.log(max, min);
+    const tempColor = d3.scaleSequential(d3.interpolateRdBu).domain([max, min]);
+    console.log(tempColor(max), tempColor(min));
 
     const xAxis = g => g
         .attr("transform", `translate(0,${height - margin.bottom})`)
@@ -64,7 +68,7 @@ function getSvg(tiltData) {
         .selectAll("circle")
         .data(tiltData)
         .join("circle")
-        .attr("cx", d => x(new Date(d.timepoint)))
+        .attr("cx", d => x(new Date(d.timestamp)))
         .attr("cy", d => y(d.sg))
         .attr("fill", d => tempColor(d.temp))
         .attr("r", 2.5);

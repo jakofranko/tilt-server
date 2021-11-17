@@ -8,7 +8,7 @@ const db = new sqlite.Database(dbName);
 router.get('/', (_, res) => {
     db.all(`SELECT beer_name, beer_slug FROM ${tiltDataTableName} GROUP BY beer_name`, (err: Error, rows) => {
         if (err) throw err;
-        res.render('beers', { beers: rows });
+        res.render('beers', { title: 'All Beers', beers: rows });
     });
 });
 

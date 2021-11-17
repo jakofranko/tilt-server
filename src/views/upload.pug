@@ -1,17 +1,14 @@
-html
-    head
-        title Import a Tilt Datasheet
-        link(rel='stylesheet' href='/styles.css')
-    body
-        h1 Import Tilt Datasheet
-        p You can download/export the Google Sheets data from a previous Tilt run as a CSV, and upload it here. The data will be saved into the database and you can view the graphed data as normal.
-        
-        form(action='/upload' enctype='multipart/form-data' method='POST')
-            div
-                label(for='beer-name') Beer Name
-                input(id='beer-name' name='beer-name')
-            div
-                label(for='tilt-data-csv') Upload one or more CSV files
+extends templates/main-layout
+
+block content
+    h1.lhs.mb2 Import Tilt Datasheet
+    p.mb1 You can download/export the Google Sheets data from a previous Tilt run as a CSV, and upload it here. The data will be saved into the database and you can view the graphed data as normal.
+    
+    form(action='/upload' enctype='multipart/form-data' method='POST')
+        div.r.mb3
+            div.c4.bsd.p2
+                label(for='tilt-data-csv').fwb Upload a CSV file
+                br
                 input(id='tilt-data-csv' name='tilt-data-csv' type='file' accept='text/csv')
-                span.help-text Make sure that you are importing only the 'Data' sheet from your Google Sheet.
-            input(type='submit' value='Upload CSV(s)')
+                div.f6.cl-6 Make sure that you are importing only the 'Data' sheet from your Google Sheet.
+        input(type='submit' value='Upload CSV').blanc.bg-blu.p2

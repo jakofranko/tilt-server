@@ -33,13 +33,10 @@ type TiltEvent = {
 
 Navigating to `<your local network IP address>:3000/beers` will present a list of your beers by name. Clicking on a beer will take you to a graph of their tilt data.
 
-Right now, the graph just shows temperature across time, but we could visualize other data points, like the SG.
+Navigating to `<your local network IP address>:3000/upload` will allow you to upload a CSV of Tilt data, which will get imported into the SQLite DB.
 
 ## TODOs
 
-- solidify actual incoming data structure from the tilt mobile application, make appropriate changes
 - decide what data to show on the graph, and how best to do it
-- probably need to coerce the timepoint datum into the right format (i.e., it's probably not a timestamp)
-- make it pretty + add some basic nav
 - clean up DB queries to all be in the db file, or maybe even refactor into a models architecture (a la https://stackabuse.com/a-sqlite-tutorial-with-node-js/ perhaps)
 - elementary CRUD functionality to allow for deleting anomalous data entries
