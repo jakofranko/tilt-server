@@ -20,14 +20,12 @@ Making POST requests to the tilt-data endpoint will save the data to the tilt_da
 
 ```typescript
 type TiltEvent = {
-    "parameter": {
-        "Beer": string,
-        "Temp": number,
-        "SG": number,
-        "Color": string,
-        "Comment": string,
-        "Timepoint": number
-    }
+    "Beer": string,
+    "Temp": number,
+    "SG": number,
+    "Color": string,
+    "Comment": string,
+    "Timepoint": number
 }
 ```
 
