@@ -33,7 +33,7 @@ router.post('/', (req, res) => {
     // tslint:disable-next-line:no-console
     console.log('Body:', req.body);
     insertTiltData(sanitizeTiltEvent(req.body));
-    res.send('Data recieved');
+    res.json({ result: 'Data recieved' });
 });
 
 export default router;
