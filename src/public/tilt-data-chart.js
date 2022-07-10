@@ -10,7 +10,7 @@ const margin = ({
 function getSvg(tiltData) {
     console.log(tiltData);
     const x = d3.scaleTime()
-        .domain(d3.extent(tiltData, d => new Date(d.timestamp)))
+        .domain(d3.extent(tiltData, d => new Date(Number(d.timestamp))))
         .range([margin.left, width - margin.right]);
 
     const y = d3.scaleLinear()
@@ -68,7 +68,7 @@ function getSvg(tiltData) {
         .selectAll("circle")
         .data(tiltData)
         .join("circle")
-        .attr("cx", d => x(new Date(d.timestamp)))
+        .attr("cx", d => x(new Date(Number(d.timestamp))))
         .attr("cy", d => y(d.sg))
         .attr("fill", d => tempColor(d.temp))
         .attr("r", 2.5);
